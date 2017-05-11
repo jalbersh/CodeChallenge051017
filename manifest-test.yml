@@ -1,0 +1,13 @@
+applications:
+- name: CodeChallenge051017
+  path: build/libs/CodeChallenge051017.jar
+  diego: true
+  instances: 2
+  memory: 3072M
+  services:
+  - dish_properties
+  - introscope
+  - eureka
+  env:
+    SPRING_PROFILES_ACTIVE: test
+    JAVA_OPTS: ''

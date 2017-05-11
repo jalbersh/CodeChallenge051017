@@ -1,0 +1,20 @@
+apply plugin: 'spring-boot'
+apply plugin: 'java'
+
+archivesBaseName = 'beacon-test'
+
+apply from: 'https://gitlab.global.dish.com/pivotal-ofm/common-utils/raw/master/beacon-microservice-common-config.gradle'
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://artifactory.global.dish.com/artifactory/repo'
+        }
+    }
+    dependencies {
+        ext{
+            springBootVersion = '1.3.3.RELEASE'
+        }
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}

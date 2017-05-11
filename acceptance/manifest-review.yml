@@ -1,0 +1,4 @@
+---
+applications:
+- name: CodeChallenge051017-simulators
+  diego: true

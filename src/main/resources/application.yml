@@ -1,0 +1,66 @@
+# Commitment Service Spring Boot Application YAML
+# Application info
+info:
+  app:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    description: ${project.description}
+    version: ${project.version}
+
+# Spring Boot Actuator properties
+endpoints:
+  shutdown:
+    enabled: true
+  health:
+    enabled: true
+
+# Spring Boot port
+server:
+    port: 9001
+
+---
+spring:
+  application:
+    name: CodeChallenge051017
+  sleuth:
+    sampler:
+      percentage: 1
+    keys:
+      http:
+        headers: "X-Trace-Id,X-Span-Id,X-Context-Session-Id,X-Context-Request-Id,X-Context-Trace-Id,X-Context-Account-Id,X-Context-Customer-Id,X-Context-Order-Id,X-Context-Agent-Id"
+    enabled: true
+    stream:
+      enabled: false
+    log:
+      json:
+        enabled: true
+
+appDomain: localhost:${server.port}
+urlExtension: /
+
+eureka:
+  instance:
+    instanceId: ${vcap.application.instance_id:id}:${vcap.application.uris[0]:uri}:${spring.application.name:CodeChallenge051017}:${server.port:8080}
+    hostname: ${appDomain}
+    nonSecurePortEnabled: false
+    securePortEnabled: false
+    homePageUrl: ${urlExtension}
+    statusPageUrl: https://${eureka.instance.hostname}${urlExtension}/metrics
+    healthCheckUrl: https://${eureka.instance.hostname}${urlExtension}/health
+  client:
+      registerWithEureka: true
+      fetchRegistry: false
+      serviceUrl:
+        defaultZone: https://${vcap.services.eureka.credentials.username:eureka}:${vcap.services.eureka.credentials.password:eureka}@${vcap.services.eureka.credentials.uri:localhost:8761}/eureka/
+      enabled: false
+
+ribbon:
+  isSecure: true
+
+# CF Application info
+application:
+  name: CodeChallenge051017
+  instance: 1
+
+# These are in alphabetical order
+some_endpoint: https://www.example.com/path/to/resource
